@@ -1,0 +1,30 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: prod-cluster-b.nginx
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: nginx
+  sources:
+    - repoURL: https://charts.bitnami.com/bitnami
+      targetRevision: 15.14.0
+      chart: nginx
+      helm:
+        releaseName: nginx
+        valueFiles:
+          - $values/manifests/nginx/base/values.yaml
+          - $values/manifests/nginx/clusters/prod-cluster-b/values.yaml
+    - repoURL: git@github.com:your-org/k8s-deployments.git
+      targetRevision: main
+      ref: values
+  destination:
+    name: prod-cluster-b
+    namespace: nginx
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
