@@ -1,0 +1,28 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: nginx
+  namespace: argocd
+spec:
+  generators:
+    - list:
+        elements:
+          - clusterName: kty-sbx-daisy
+  template:
+    metadata:
+      name: nginx-{{clusterName}}
+    spec:
+      project: default
+      source:
+        repoURL: https://github.com/deegupt4/k8s-deploy-argo.git
+        targetRevision: HEAD
+        path: charts/nginx
+      destination:
+        name: '{{clusterName}}'
+        namespace: nginx
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
