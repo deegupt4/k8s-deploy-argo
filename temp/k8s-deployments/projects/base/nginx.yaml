@@ -1,0 +1,32 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: nginx
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  description: Nginx web server deployments
+  sourceRepos:
+    - '*'
+  destinations:
+    - namespace: nginx
+      server: '*'
+    - namespace: nginx-*
+      server: '*'
+  clusterResourceWhitelist:
+    - group: ''
+      kind: Namespace
+  roles:
+    - name: sync-role
+      description: Privileges to manually sync nginx apps
+      policies:
+        - p, proj:nginx:sync-role, applications, sync, nginx/*, allow
+      groups:
+        - nginx-team
+    - name: admin
+      description: Admin access to nginx apps
+      policies:
+        - p, proj:nginx:admin, applications, *, nginx/*, allow
+      groups:
+        - platform-team

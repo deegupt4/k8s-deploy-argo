@@ -1,0 +1,28 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: nginx-kty-sbx-daisy-helm
+  namespace: argocd
+spec:
+  project: default
+
+  source:
+    repoURL: https://charts.bitnami.com/bitnami
+    chart: nginx
+    targetRevision: 15.9.0
+    helm:
+      releaseName: nginx
+      values: |
+        service:
+          type: ClusterIP
+
+  destination:
+    name: kty-sbx-daisy
+    namespace: nginx-test
+
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

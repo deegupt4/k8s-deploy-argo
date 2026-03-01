@@ -1,0 +1,10 @@
+apiVersion: v2
+name: nginx-wrapper
+description: Wrapper chart for Bitnami nginx
+type: application
+version: 15.9.0
+
+dependencies:
+  - name: nginx
+    version: 15.9.0
+    repository: https://charts.bitnami.com/bitnami

@@ -1,0 +1,23 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: kty-sbx-daisy
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: '-1'
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  destination:
+    name: kty-sbx-daisy
+    namespace: argocd
+  source:
+    path: k8s-deployments-argo/apps/clusters/kty-sbx-daisy
+    repoURL: git@github.com:deegupt4/k8s-deploy-argo.git
+    targetRevision: main
+  project: default
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+      allowEmpty: true

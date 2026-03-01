@@ -1,0 +1,23 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: dev-cluster-b.apps
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: '-1'
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  destination:
+    name: dev-cluster-b
+    namespace: argocd
+  source:
+    path: apps/clusters/dev-cluster-b
+    repoURL: git@github.com:your-org/k8s-deployments.git
+    targetRevision: main
+  project: default
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+      allowEmpty: true
