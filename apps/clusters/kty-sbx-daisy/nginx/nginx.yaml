@@ -12,8 +12,8 @@ spec:
     targetRevision: main
     path: manifests/nginx/clusters/kty-sbx-daisy
   destination:
-    name: in-cluster
-    namespace: argocd
+    name: kty-sbx-daisy
+    namespace: nginx
   syncPolicy:
     automated:
       prune: true
