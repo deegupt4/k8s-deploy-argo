@@ -12,8 +12,8 @@ spec:
     name: kty-sbx-daisy
     namespace: argocd
   source:
-    path: k8s-deployments-argo/apps/clusters/kty-sbx-daisy
-    repoURL: git@github.com:deegupt4/k8s-deploy-argo.git
+    path: apps/clusters/kty-sbx-daisy
+    repoURL: https://github.com/deegupt4/k8s-deploy-argo.git
     targetRevision: main
   project: default
   syncPolicy:
